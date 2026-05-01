@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import app from "./app.js"
+import app from "./src/app.js"
 
 
 try {

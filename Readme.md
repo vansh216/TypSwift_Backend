@@ -9,24 +9,29 @@ A REST API backend for **TypSwift**, a typing speed test web application. Built 
 ```
 backend/
 ├── config/
-│   └── db.js                  # MongoDB connection setup
-├── controllers/
-│   ├── auth.controller.js      # Register, login, get me
-│   ├── test.controller.js      # Fetch paragraph, submit result
-│   ├── user.controller.js      # User history and stats
-│   └── leaderboard.controller.js
-├── middleware/
-│   ├── auth.middleware.js      # JWT verification
-│   └── error.middleware.js     # Global error handler
-├── models/
-│   ├── User.model.js           # User schema
-│   ├── TestResult.model.js     # Test result schema
-│   └── Paragraph.model.js      # Paragraph schema
-├── routes/
-│   ├── auth.routes.js
-│   ├── test.routes.js
-│   ├── user.routes.js
-│   └── leaderboard.routes.js
+│  └── db.js                    # MongoDB connection setup
+├── src/
+│   └──│ 
+│      ├── controllers/
+│      │     ├── auth.controller.js      # Register, login, get me
+│      │     ├── test.controller.js      # Fetch paragraph, submit result
+│      │     ├── user.controller.js      # User history and stats
+│      │     └── leaderboard.controller.js
+│      ├── middleware/
+│      │     ├── auth.middleware.js      # JWT verification
+│      │     └── error.middleware.js     # Global error handler
+│      ├── models/
+│      │     ├── User.model.js           # User schema
+│      │     ├── TestResult.model.js     # Test result schema
+│      │     └── Paragraph.model.js      # Paragraph schema
+│      └── routes/
+│           ├── auth.routes.js
+│           ├── test.routes.js
+│           ├── user.routes.js
+│           └── leaderboard.routes.js
+│
+│               
+│ 
 ├── data/
 │   └── paragraphs.json         # Seed data for paragraphs
 ├── scripts/
@@ -35,7 +40,7 @@ backend/
 ├── .env.example                # Example env file (safe to commit)
 ├── .gitignore
 ├── package.json
-└── server.js                   # App entry point
+└── index.js                   # App entry point
 ```
 
 ---
