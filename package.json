@@ -5,15 +5,20 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "npx nodemon src/index"
+    "dev": "npx nodemon src/index",
+    "start": "node src/index",
+    "seed": "node scripts/seed.js",
+    "seed:fresh": "node scripts/seed.js --fresh"
   },
   "keywords": [],
   "author": "vansh",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.1"
   }
 }
