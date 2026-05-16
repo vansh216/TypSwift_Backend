@@ -1,10 +1,8 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import User from '../model/User.model.js';
 
-// ─────────────────────────────────────────
-// Helper — generate JWT token
-// ─────────────────────────────────────────
+
 const generateToken = (userId) => {
   return jwt.sign(
     { id: userId },
@@ -13,14 +11,13 @@ const generateToken = (userId) => {
   );
 };
 
-// ─────────────────────────────────────────
-// POST /api/auth/register
-// ─────────────────────────────────────────
-export const register = async (req, res) => {
+
+async function  HandleUserRegister (req, res)  {
+  console.log(req.body)
   try {
     const { username, email, password } = req.body;
 
-    // 1. Check all fields are present
+    
     if (!username || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -28,7 +25,6 @@ export const register = async (req, res) => {
       });
     }
 
-    // 2. Check if email or username already exists
     const existingUser = await User.findOne({
       $or: [{ email }],
     });
@@ -42,18 +38,18 @@ export const register = async (req, res) => {
       });
     }
 
-    // 3. Hash password
+  
     const salt           = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // 4. Create user
+  
     const user = await User.create({
       username,
       email,
       password: hashedPassword,
     });
 
-    // 5. Return token
+  
     const token = generateToken(user._id);
 
     res.status(201).json({
@@ -70,14 +66,11 @@ export const register = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────
-// POST /api/auth/login
-// ─────────────────────────────────────────
-export const login = async (req, res) => {
+
+async function HandleUserLogin  (req, res) {
   try {
     const { email, password } = req.body;
 
-    // 1. Check fields
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -85,7 +78,7 @@ export const login = async (req, res) => {
       });
     }
 
-    // 2. Find user — include password for comparison
+    
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
@@ -95,7 +88,7 @@ export const login = async (req, res) => {
       });
     }
 
-    // 3. Compare password
+    
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -105,7 +98,7 @@ export const login = async (req, res) => {
       });
     }
 
-    // 4. Return token
+    
     const token = generateToken(user._id);
 
     res.status(200).json({
@@ -122,10 +115,7 @@ export const login = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────
-// GET /api/auth/me
-// ─────────────────────────────────────────
-export const getMe = async (req, res) => {
+async function HandleUserGetme  (req, res) {
   try {
     res.status(200).json({
       success: true,
@@ -133,7 +123,6 @@ export const getMe = async (req, res) => {
         id      : req.user._id,
         username: req.user.username,
         email   : req.user.email,
-        avatar  : req.user.avatar,
         createdAt: req.user.createdAt,
       },
     });
@@ -141,3 +130,9 @@ export const getMe = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export {
+  HandleUserRegister,
+  HandleUserLogin,
+  HandleUserGetme
+}

@@ -18,7 +18,7 @@ const TestResultSchema= new mongoose.Schema({
         type:Number,
         required:true,
     },
-    errors:{
+    errorsCount:{
         type:Number,
         required:true,
     },
@@ -33,7 +33,7 @@ const TestResultSchema= new mongoose.Schema({
     }
 },{timestamps:true}) 
 
-const TestResult = mongoose.medel("testResult",TestResultSchema);
+const TestResult = await mongoose.model("testResult",TestResultSchema);
 
 export default TestResult;
     
