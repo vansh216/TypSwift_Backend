@@ -4,7 +4,6 @@ const TestResultSchema= new mongoose.Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user",
-        required:true,
     },
     wpm:{
         type:Number,
@@ -29,7 +28,7 @@ const TestResultSchema= new mongoose.Schema({
     paragraphId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"paragraph",
-        required:true,
+        // required:true,
     }
 },{timestamps:true}) 
 
