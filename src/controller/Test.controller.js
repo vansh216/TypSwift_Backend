@@ -61,7 +61,7 @@ async function HandleSubmitTest  (req, res)  {
       wpm,
       accuracy,
       duration,
-      errors      : errors     || 0,
+      errorsCount      : errors     || 0,
       wpmHistory  : wpmHistory || [],
       paragraphId : paragraphId || null,
       userId      : req.user ? req.user._id : null,
