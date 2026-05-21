@@ -13,7 +13,6 @@ const generateToken = (userId) => {
 
 
 async function  HandleUserRegister (req, res)  {
-  console.log(req.body)
   try {
     const { username, email, password } = req.body;
 
