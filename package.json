@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "npx nodemon src/index",
-    "start": "node src/index",
+    "dev": "npx nodemon index",
+    "start": "node index",
     "seed": "node scripts/seed.js",
     "seed:fresh": "node scripts/seed.js --fresh"
   },
