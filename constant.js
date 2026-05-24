@@ -1,1 +1,1 @@
-export const DB_Name = "TypSwith";
+export const DB_Name = "TypSwift";
