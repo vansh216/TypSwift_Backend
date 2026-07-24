@@ -43,6 +43,17 @@ backend/
 └── index.js                   # App entry point
 ```
 
+
+---
+
+### 🔗 AI Integration Plan
+
+| Feature | Where it appears | Auth Required |
+|---------|-----------------|---------------|
+| Post Test Analysis | `/results` page | ❌ Guest + Login |
+| AI Paragraph Generator | `/test` page | ❌ Guest + Login |
+| AI Typing Coach | `/profile` page | ✅ Login only |
+
 ---
 
 ## 🚀 Getting Started
