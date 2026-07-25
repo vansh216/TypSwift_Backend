@@ -5,6 +5,7 @@ import TestRoute from "./routes/Test.routes.js";
 import AuthRoute from "./routes/Auth.routes.js"
 import LeaderBoardRoute from "./routes/Leaderboard.routes.js"
 import OptionalProtect from './middleware/Auth.middleware.js';
+import AiRoutes from './routes/Ai.routes.js'
 
 
 
@@ -18,6 +19,7 @@ app.use("/api/user",UserRoute);
 app.use("/api/test",TestRoute);
 app.use("/api/Auth",AuthRoute);
 app.use("/api/Leaderboard",LeaderBoardRoute);
+app.use('/api/ai', AiRoutes);
 
 
 export default app;
