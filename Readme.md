@@ -17,6 +17,7 @@ backend/
 │      │     ├── test.controller.js      # Fetch paragraph, submit result
 │      │     ├── user.controller.js      # User history and stats
 │      │     └── leaderboard.controller.js
+│      │     └── ai.controller.js  
 │      ├── middleware/
 │      │     ├── auth.middleware.js      # JWT verification
 │      │     └── error.middleware.js     # Global error handler
@@ -29,6 +30,7 @@ backend/
 │           ├── test.routes.js
 │           ├── user.routes.js
 │           └── leaderboard.routes.js
+│           └── Ai.routes.js 
 │
 │               
 │ 
