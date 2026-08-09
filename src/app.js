@@ -7,6 +7,8 @@ import LeaderBoardRoute from "./routes/Leaderboard.routes.js"
 import OptionalProtect from './middleware/Auth.middleware.js';
 import AiRoutes from './routes/Ai.routes.js'
 
+import { globalRateLimit } from './middleware/RateLimit.middleware.js';
+
 
 
 
@@ -15,6 +17,7 @@ const app = express();
 app.use(express.json())
 app.use(cors())
 app.use(OptionalProtect)
+app.use(globalRateLimit)
 app.use("/api/user",UserRoute);
 app.use("/api/test",TestRoute);
 app.use("/api/Auth",AuthRoute);
