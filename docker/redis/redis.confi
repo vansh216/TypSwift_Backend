@@ -1,0 +1,151 @@
+# ─────────────────────────────────────────
+# TypSwift — Redis Configuration
+# Used for local development via Docker
+#
+# Production uses Redis Cloud
+# Update REDIS_URL in .env for production
+# ─────────────────────────────────────────
+
+
+# ═══════════════════════════════════════════
+# NETWORK
+# ═══════════════════════════════════════════
+
+# Accept connections from all interfaces
+# Docker network handles security
+bind 0.0.0.0
+
+# Default Redis port
+port 6379
+
+# Close connection after client idle for N seconds
+# 0 = never timeout
+timeout 0
+
+# Send keepalive packets every N seconds
+# Detects dead connections
+tcp-keepalive 300
+
+# TCP backlog — pending connections queue
+tcp-backlog 511
+
+
+# ═══════════════════════════════════════════
+# SECURITY
+# ═══════════════════════════════════════════
+
+# Password protection
+# Must match REDIS_PASSWORD in .env
+requirepass typswift_redis_2026
+
+# Disable dangerous commands in production
+# Prevents accidental data wipe
+rename-command FLUSHALL  ""
+rename-command FLUSHDB   ""
+rename-command DEBUG     ""
+rename-command CONFIG    "TYPSWIFT_CONFIG"
+
+
+# ═══════════════════════════════════════════
+# MEMORY MANAGEMENT
+# ═══════════════════════════════════════════
+
+# Maximum memory Redis can use
+# Increase if you have more RAM available
+maxmemory 25mb
+
+# Eviction policy when memory limit is reached
+# allkeys-lru — removes least recently used keys
+# Best for caching use case
+maxmemory-policy allkeys-lru
+
+# LRU sample size — higher = more accurate but slower
+# 5 is a good balance
+maxmemory-samples 5
+
+
+# ═══════════════════════════════════════════
+# PERSISTENCE
+# ═══════════════════════════════════════════
+
+# AOF — Append Only File
+# Every write operation is logged to disk
+# Data survives container restart
+appendonly yes
+appendfilename "appendonly.aof"
+
+# How often to sync AOF to disk
+# everysec — sync every second
+# Good balance between performance and safety
+appendfsync everysec
+
+# Do not sync during AOF rewrite
+# Prevents performance issues during rewrite
+no-appendfsync-on-rewrite no
+
+# Rewrite AOF file when it grows by this percentage
+auto-aof-rewrite-percentage 100
+
+# Minimum AOF file size before rewrite
+auto-aof-rewrite-min-size 15mb
+
+# RDB snapshots — backup in addition to AOF
+# save <seconds> <changes>
+# save after 900 seconds if at least 1 key changed
+save 900 1
+# save after 300 seconds if at least 10 keys changed
+save 300 10
+# save after 60 seconds if at least 10000 keys changed
+save 60 10000
+
+# RDB filename
+dbfilename dump.rdb
+
+# Directory to store RDB and AOF files
+dir /data
+
+
+# ═══════════════════════════════════════════
+# PERFORMANCE
+# ═══════════════════════════════════════════
+
+# Max number of connected clients
+maxclients 100
+
+# Disable slow log — only log commands slower than N microseconds
+# 10000 microseconds = 10 milliseconds
+slowlog-log-slower-than 10000
+
+# Max length of slow log
+slowlog-max-len 128
+
+# Lazy freeing — free memory asynchronously
+# Prevents blocking on large key deletion
+lazyfree-lazy-eviction   yes
+lazyfree-lazy-expire     yes
+lazyfree-lazy-server-del yes
+
+
+# ═══════════════════════════════════════════
+# LOGGING
+# ═══════════════════════════════════════════
+
+# Log level
+# debug → verbose → notice → warning
+# notice is good for production
+loglevel notice
+
+# Log to stdout — Docker captures this
+logfile ""
+
+
+# ═══════════════════════════════════════════
+# KEY EXPIRY
+# ═══════════════════════════════════════════
+
+# How often Redis checks for expired keys
+# 10 = default — checks 10 times per second
+hz 10
+
+# Dynamic hz — adjusts based on number of clients
+dynamic-hz yes
