@@ -2,9 +2,10 @@ import 'dotenv/config'
 
 
 import connectDB from './config/DB.js';
+import { connectRedis } from './config/redis.js';
 import app from "./src/app.js"
 
-
+ await connectRedis();
 
 connectDB().then(()=>{
 
