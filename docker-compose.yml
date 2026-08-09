@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
 
-  
+
   # MongoDB Service
   mongo:
     image: mongo:7
@@ -26,7 +26,6 @@ services:
       retries: 5
       start_period: 20s
 
-  
   # Redis Service
   redis:
     image: redis:7-alpine
@@ -41,21 +40,20 @@ services:
     networks:
       - typswift-network
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'ping']
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
 
-
-# Volumes — persistent data storage
+# Volumes — data persists on container restart
 volumes:
   mongo_data:
     driver: local
   redis_data:
     driver: local
 
-# Network — all services talk to each other
+# Network — services talk to each other
 networks:
   typswift-network:
     driver: bridge
