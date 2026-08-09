@@ -1,32 +1,24 @@
+# TypSwift — Docker Compose
+#
+# DEVELOPMENT ONLY
+# Runs Redis locally for development
+#
+# MongoDB — use local installation
+# Redis   — runs in Docker
+#
+# Someone who forks with no local MongoDB
+# can add mongo service back here
+#
+# Production:
+# MongoDB → Atlas
+# Redis   → Redis Cloud
+
 version: '3.9'
 
 services:
 
 
-  # MongoDB Service
-  mongo:
-    image: mongo:7
-    container_name: typswift-mongo
-    restart: unless-stopped
-    ports:
-      - '27017:27017'
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_INITDB_DATABASE: typswift
-    volumes:
-      - mongo_data:/data/db
-      - ./docker/mongo/init.js:/docker-entrypoint-initdb.d/init.js:ro
-    networks:
-      - typswift-network
-    healthcheck:
-      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
-
-  # Redis Service
+  # Redis Service only
   redis:
     image: redis:7-alpine
     container_name: typswift-redis
@@ -37,23 +29,13 @@ services:
     volumes:
       - redis_data:/data
       - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
-    networks:
-      - typswift-network
     healthcheck:
-      test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'ping']
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test        : ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'ping']
+      interval    : 10s
+      timeout     : 5s
+      retries     : 5
       start_period: 10s
 
-# Volumes — data persists on container restart
 volumes:
-  mongo_data:
-    driver: local
   redis_data:
     driver: local
-
-# Network — services talk to each other
-networks:
-  typswift-network:
-    driver: bridge
