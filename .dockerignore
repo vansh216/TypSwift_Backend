@@ -1,0 +1,77 @@
+# ─────────────────────────────────────────
+# TypSwift — Docker Ignore File
+# Prevents these files from being copied
+# into Docker container build context
+# ─────────────────────────────────────────
+
+
+# ── Node modules ──
+# Never copy — install fresh inside container
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+
+# ── Environment files ──
+# Never push secrets into container
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+
+# ── Git ──
+.git
+.gitignore
+.gitattributes
+
+
+# ── Logs ──
+logs
+*.log
+
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# ── Editor files ──
+.vscode
+.idea
+*.swp
+*.swo
+.editorconfig
+
+
+# ── Test files ──
+coverage
+.nyc_output
+__tests__
+*.test.js
+*.spec.js
+jest.config.js
+
+
+# ── Build output ──
+dist
+build
+
+
+# ── Documentation ──
+README.md
+CHANGELOG.md
+docs
+
+
+# ── Docker files themselves ──
+# No need to copy into container
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml
+.dockerignore
