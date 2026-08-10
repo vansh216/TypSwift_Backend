@@ -71,7 +71,6 @@ const connectRedis = async () => {
 
     client.on('end', () => {
       console.log('Redis connection ended');
-      client = null;
     });
 
     // Trigger connection
@@ -82,6 +81,17 @@ const connectRedis = async () => {
     if (pong === 'PONG') {
       console.log('Redis ping successful');
     }
+
+    setInterval(async () => {
+      try {
+        if (client && client.status === 'ready') {
+          await client.ping();
+          console.log('Redis keep alive');
+        }
+      } catch (err) {
+        console.error('Keep alive failed:', err.message);
+      }
+    }, 25000);
 
     return client;
 
