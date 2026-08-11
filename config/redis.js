@@ -45,7 +45,7 @@ const connectRedis = async () => {
     // Remote → pass full URL with TLS config 
     // Local  → use host/port config
     client = remote
-      ? client = new Redis(process.env.REDIS_URL)
+      ?  new Redis(process.env.REDIS_URL)
       : new Redis(buildRedisConfig());
 
     // Event listeners
@@ -74,7 +74,9 @@ const connectRedis = async () => {
     });
 
     // Trigger connection
-    await client.connect();
+    if(!remote){
+      await client.connect();
+    }
 
     // Verify
     const pong = await client.ping();
