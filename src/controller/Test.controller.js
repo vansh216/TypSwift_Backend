@@ -1,8 +1,25 @@
 import mongoose from "mongoose"
 import TestResult from "../model/TestResult.model.js"
 import Paragraph  from '../model/Paragraph.model.js';
+import { getRedisClient, isRedisConnected } from '../../config/redis.js'
 
 
+const invalidateLeaderboardCache = async () => {
+  const redis = getRedisClient();
+
+  if (!isRedisConnected() || !redis) return;
+
+  try {
+    // Find all leaderboard cache keys
+    const keys = await redis.keys('leaderboard:*');
+
+    if (keys.length > 0) {
+      await redis.del(...keys);
+    }
+  } catch (error) {
+    console.error('Cache invalidation error:', error.message);
+  }
+};
 
   async function HandleGetParagraph(req, res){
   try {
@@ -76,6 +93,7 @@ async function HandleSubmitTest  (req, res)  {
         await paragraph.recordUsage(wpm);
       }
     }
+    await invalidateLeaderboardCache();
 
     res.status(201).json({
       success: true,
