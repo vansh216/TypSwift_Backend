@@ -1,4 +1,17 @@
 import  TestResult from "../model/TestResult.model.js"
+import {getRedisClient , isRedisConnected} from "../../config/redis.js"
+
+// cache config
+const CACHE_TTL = 60*5;
+const CACHE_PREFIX ='leaderboard';
+
+  //build cache key based on filters
+const buildCacheKey = (duration, limit) => {
+  if (duration) {
+    return `${CACHE_PREFIX}:duration:${duration}:limit:${limit}`;
+  }
+  return `${CACHE_PREFIX}:all:limit:${limit}`;
+};
 
 async function HandleLeaderBoard(req,res) {
 
@@ -6,8 +19,22 @@ async function HandleLeaderBoard(req,res) {
     const duration = parseInt(req.query.duration) || null;
     const limit = parseInt(req.query.limit) || 10;
 
+    // check redis cache first
+      const redis    = getRedisClient();
+    const cacheKey = buildCacheKey(duration, limit);
 
-    // for the guest user
+     if (isRedisConnected() && redis) {
+      const cached = await redis.get(cacheKey);
+      if (cached) {
+        return res.status(200).json({
+          ...JSON.parse(cached),
+          fromCache: true,
+        });
+      }
+    }
+
+ // if cache miss run the mongo aggregation
+    // for the guest user 
     const matchStage= {
         userId: {$ne:null},
     }
@@ -81,12 +108,25 @@ async function HandleLeaderBoard(req,res) {
       ...entry,
     }));
 
-    res.status(200).json({
+     const response = {
       success    : true,
       duration   : duration ? `${duration} min` : 'all',
       total      : ranked.length,
       leaderboard: ranked,
-    });
+      fromCache  : false,
+    };
+
+      if (isRedisConnected() && redis) {
+      await redis.set(
+        cacheKey,
+        JSON.stringify(response),
+        'EX',
+        CACHE_TTL
+      );
+    }
+
+
+    res.status(200).json(response);
 
 
    } catch (error) {
