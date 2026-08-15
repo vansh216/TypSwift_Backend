@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -8,6 +8,7 @@
     "dev": "npx nodemon index",
     "start": "node index",
     "seed": "node scripts/seed.js",
+    "test-socket": "node scripts/test-socket.js",
     "seed:fresh": "node scripts/seed.js --fresh"
   },
   "keywords": [],
@@ -23,6 +24,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.1",
     "path": "^0.12.7",
-    "socket.io": "^4.8.3"
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
   }
 }
