@@ -92,10 +92,8 @@ export const registerGameHandlers = (io, socket) => {
                 }
             }, 1000);
 
-            console.log(`🎮 Game started — room: ${roomCode} — players: ${Object.keys(room.players).length}`);
         } catch (error) {
             socket.emit('room-error', { message: 'Failed to start game' });
-            console.error('Start game error:', error.message);
         }
     });
 
@@ -135,7 +133,6 @@ socket.on('player-finished', ({ roomCode, wpm, accuracy }) => {
             players: getPlayersArray(room),
         });
 
-        console.log(`🏁 ${socket.user.username} finished — room: ${roomCode} — WPM: ${wpm}`);
 
         // All players finished — end game immediately
         if (allPlayersFinished(room)) {
@@ -182,7 +179,6 @@ const endGame = (io, roomCode) => {
         roomCode,
     });
 
-    console.log(`🏆 Game over — room: ${roomCode}`);
 
     // Clean up room after 30 seconds
     setTimeout(() => {

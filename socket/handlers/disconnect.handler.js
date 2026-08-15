@@ -36,7 +36,6 @@ export const registerDisconnectHandlers = (io, socket) => {
         hostId   : affectedRoom.players[affectedRoom.hostId]?.userId,
       });
 
-      console.log(`👋 ${socket.user.username} disconnected from room — ${roomCode}`);
 
     } catch (error) {
       console.error('Disconnect handler error:', error.message);

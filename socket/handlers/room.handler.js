@@ -30,7 +30,6 @@ export const registerRoomHandlers = (io, socket) => {
         hostId   : socket.user.id,
       });
 
-      console.log(`🏠 Room created — ${room.roomCode} — host: ${socket.user.username}`);
 
     } catch (error) {
       socket.emit('room-error', { message: 'Failed to create room' });
@@ -61,7 +60,6 @@ export const registerRoomHandlers = (io, socket) => {
         hostId   : room.players[room.hostId]?.userId,
       });
 
-      console.log(`👥 ${socket.user.username} joined room — ${code}`);
 
     } catch (error) {
       socket.emit('room-error', { message: 'Failed to join room' });
@@ -103,7 +101,6 @@ export const registerRoomHandlers = (io, socket) => {
         hostId   : room.players[room.hostId]?.userId,
       });
 
-      console.log(`🚪 ${socket.user.username} left room — ${roomCode}`);
 
     } catch (error) {
       console.error('Leave room error:', error.message);
